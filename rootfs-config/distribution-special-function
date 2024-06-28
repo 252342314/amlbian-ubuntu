@@ -87,7 +87,7 @@ post_install_distribution_specific()
 	info_msg "Applying post distribution specific tweaks for $DISTRIB_RELEASE"
 
 	case $DISTRIB_RELEASE in
-	jammy|noble)
+	jammy)
 		chroot $ROOTFS_TEMP /bin/bash -c "systemctl --no-reload mask ondemand.service"
 		if [ "$DISTRIB_TYPE" != "minimal" ]; then
             echo "disable some useless service"
@@ -97,6 +97,14 @@ post_install_distribution_specific()
             eval 'LC_ALL=C LANG=C chroot $ROOTFS_TEMP /bin/bash -c "systemctl disable  rc-local.service "'
             # Disable pipewire.service
             eval 'LC_ALL=C LANG=C chroot $ROOTFS_TEMP /bin/bash -c "systemctl disable --global pipewire.service "'
+		fi
+		;;
+	noble)
+		chroot $ROOTFS_TEMP /bin/bash -c "systemctl --no-reload mask ondemand.service"
+		if [ "$DISTRIB_TYPE" != "minimal" ]; then
+            echo "disable some useless service"
+            # Disable rc-local.service
+            eval 'LC_ALL=C LANG=C chroot $ROOTFS_TEMP /bin/bash -c "systemctl disable  rc-local.service "'
 		fi
 		;;
 	esac
