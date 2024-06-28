@@ -3,11 +3,11 @@
 Support ubuntu in amlbian  
 Please select the tag according to the release version.  
 ```
-main : https://github.com/aiotdevice/amlbian-ubuntu/tree/main
-V1.0 : https://github.com/aiotdevice/amlbian-ubuntu/tree/V1.0_20230430
-V2.0 : https://github.com/aiotdevice/amlbian-ubuntu/tree/V2.0_20230602
-V3.0 : https://github.com/aiotdevice/amlbian-ubuntu/tree/v3.0_20230725
-V4.0 : https://github.com/aiotdevice/amlbian-ubuntu/tree/v4.0_20231130
+main : https://github.com/252342314/amlbian-ubuntu/tree/main
+V1.0 : https://github.com/252342314/amlbian-ubuntu/tree/V1.0_20230430
+V2.0 : https://github.com/252342314/amlbian-ubuntu/tree/V2.0_20230602
+V3.0 : https://github.com/252342314/amlbian-ubuntu/tree/v3.0_20230725
+V4.0 : https://github.com/252342314/amlbian-ubuntu/tree/v4.0_20231130
 ```
 
 
@@ -35,12 +35,10 @@ amlbian
 amlbian-ubuntu
 ...
 ```
-Then execute the shell script, before build amlbian.
+Then amlbian-ubuntu to your project, before build amlbian.
 ```
-$ cd amlbian-ubuntu
-$ ./copy_2_amlbian.sh
-copy the Ubuntu relative script to amlbian project
-copy done...
+$ mv amlbian-ubuntu project/amlbian-conf-Ubuntu
+(Note: amlbian-ubuntu shoud be renamed amlbian-conf-Ubuntu)
 ```
 Then you can start to build Ubuntu image, with the follow config file. 
 (need root)
