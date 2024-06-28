@@ -15,7 +15,7 @@ create_sources_list()
 	[[ -z $basedir ]] && error_msg "No basedir passed to create_sources_list" && return -1
 
 	case $release in
-	jammy)
+	jammy|noble)
 	cat <<-EOF | tee $basedir/etc/apt/sources.list
 	deb http://${DEBIAN_MIRROR} $release main restricted universe multiverse
 	#deb-src http://${DEBIAN_MIRROR} $release main restricted universe multiverse
@@ -44,7 +44,7 @@ install_distribution_specific()
 	info_msg "Applying distribution specific tweaks for $DISTRIB_RELEASE"
 
 	case $DISTRIB_RELEASE in
-	jammy)
+	jammy|noble)
 		# remove doubled uname from motd
 		[[ -f $ROOTFS_TEMP/etc/update-motd.d/10-uname ]] && rm $ROOTFS_TEMP/etc/update-motd.d/10-uname
 		# remove motd news from motd.ubuntu.com
@@ -87,7 +87,7 @@ post_install_distribution_specific()
 	info_msg "Applying post distribution specific tweaks for $DISTRIB_RELEASE"
 
 	case $DISTRIB_RELEASE in
-	jammy)
+	jammy|noble)
 		chroot $ROOTFS_TEMP /bin/bash -c "systemctl --no-reload mask ondemand.service"
 		if [ "$DISTRIB_TYPE" != "minimal" ]; then
             echo "disable some useless service"

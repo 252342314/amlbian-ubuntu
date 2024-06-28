@@ -1,35 +1,36 @@
 #!/bin/bash
 
-PACKAGE_LIST_DESKTOP+=" pavucontrol pavumeter blueman libpam-gnome-keyring gnome-online-accounts gkbd-capplet gnome-calculator gnome-calendar \
-			gnome-characters gnome-disk-utility gnome-font-viewer gnome-logs gnome-mahjongg gnome-sudoku gnome-system-monitor \
-			gnome-todo gnome-user-docs gnome-video-effects gnome-power-manager libgnome-autoar-0-0 libgnome-autoar-0-0 \
-			gnome-todo-common gnome-todo gnome-orca libgnome-bluetooth13 pulseaudio-module-bluetooth pulseaudio \
-			network-manager-gnome network-manager-openvpn-gnome gnome-keyring gnome-system-tools libcanberra-pulse"
-
 case $DISTRIB_TYPE in
 	xfce)
 		PACKAGE_LIST_DESKTOP+=" $PACKAGE_LIST_OFFICE"
 		PACKAGE_LIST_DESKTOP+=" xfce4 lxtask xfce4-screenshooter xfce4-notifyd xfce4-terminal desktop-base software-properties-gtk thunar-archive-plugin xfce4-power-manager"
+		[[ $DISTRIBUTION == Ubuntu ]] && PACKAGE_LIST_DESKTOP+=" update-manager"
 	;;
 	lxde)
 		PACKAGE_LIST_DESKTOP+=" $PACKAGE_LIST_OFFICE"
 		PACKAGE_LIST_DESKTOP+=" lxde lxlauncher lxmusic lxsession-default-apps lxsession-logout lxshortcut lxtask obconf \
-			xfce4-power-manager-plugins lxde-common desktop-base"
+								xfce4-power-manager-plugins lxde-common desktop-base"
 	;;
 	gnome)
 		PACKAGE_LIST_DESKTOP+=" $PACKAGE_LIST_OFFICE"
-		PACKAGE_LIST_DESKTOP+=" desktop-base software-properties-gtk gnome-terminal gnome-tweaks gnome-screenshot gnome-bluetooth"
-		([[ $DISTRIB_RELEASE == focal ]] || [[ $DISTRIB_RELEASE == jammy ]]) && PACKAGE_LIST_DESKTOP+=" yaru-theme-gtk yaru-theme-icon yaru-theme-sound"
-		PACKAGE_LIST_DESKTOP+=" ubuntu-desktop libgdk-pixbuf2.0-bin "
+		PACKAGE_LIST_DESKTOP+=" desktop-base software-properties-gtk gnome-terminal gnome-shell-extensions gnome-tweaks gnome-screenshot"
+		([[ $DISTRIB_RELEASE == jammy ]] || [[ $DISTRIB_RELEASE == noble ]]) && PACKAGE_LIST_DESKTOP+=" yaru-theme-gtk yaru-theme-icon yaru-theme-sound"
+		[[ $DISTRIBUTION == Ubuntu ]] && PACKAGE_LIST_DESKTOP+=" ubuntu-desktop update-manager"
 	;;
 esac
 
 case $DISTRIB_RELEASE in
 	jammy)
 		DEBOOTSTRAP_COMPONENTS="main,universe"
-		[[ "$DISTRIB_TYPE" != "minimal" ]] && PACKAGE_LIST_RELEASE="man-db kbd gnupg2 dirmngr networkd-dispatcher libjpeg9 libjpeg-turbo8-dev zlib1g-dev libpng-dev command-not-found"
-		PACKAGE_LIST_DESKTOP+=" $PACKAGE_LIST_GSTREAMER $PACKAGE_LIST_QT xserver-xorg-input-all pulseaudio-module-gsettings language-selector-gnome viewnior dbus-user-session libreoffice-style-tango"
-		PACKAGE_LIST_DESKTOP+=" rhythmbox cheese network-manager-config-connectivity-ubuntu gsettings-ubuntu-schemas chromium-browser "
+		[[ "$DISTRIB_TYPE" != "minimal" ]] && PACKAGE_LIST_RELEASE="man-db kbd gnupg2 dirmngr networkd-dispatcher libjpeg9 command-not-found libgrpc++1 libboost-system1.74.0 libgcc1 rng-tools iozone3"
+		PACKAGE_LIST_DESKTOP+=" $PACKAGE_LIST_GSTREAMER xserver-xorg-input-all gnome-orca pulseaudio pulseaudio-module-bluetooth pulseaudio-module-gsettings language-selector-gnome viewnior dbus-user-session libreoffice-style-tango"
+	;;
+	noble)
+		DEBOOTSTRAP_COMPONENTS="main,universe"
+		[[ "$DISTRIB_TYPE" != "minimal" ]] && PACKAGE_LIST_RELEASE="man-db kbd gnupg2 dirmngr networkd-dispatcher libjpeg9 command-not-found libgrpc++1.51t64 libboost-system1.83.0 libgcc1 rng-tools iozone3"
+		PACKAGE_LIST_DESKTOP+=" $PACKAGE_LIST_GSTREAMER xserver-xorg-input-all language-selector-gnome viewnior dbus-user-session libreoffice-style-tango"
+		# Package dependencies for chromium
+		PACKAGE_LIST_DESKTOP+=" libdouble-conversion3 libharfbuzz-subset0 libjsoncpp25 libminizip1t64 libxnvctrl0 xdg-utils"
 	;;
 esac
 
@@ -39,7 +40,7 @@ if [ "$BUILD_TYPE" == develop ]; then
 	PACKAGE_LIST_DESKTOP+=" glmark2-es2-wayland"
 	
 	# add common debug tool here for develop version
-	PACKAGE_LIST+=" silversearcher-ag v4l-utils tilix adb python3-pip "
+	PACKAGE_LIST_DESKTOP+=" silversearcher-ag v4l-utils tilix adb python3-pip "
 fi
 
 
